@@ -10,6 +10,9 @@
 </head>
 <body>
     <div class="container">
+
+        <h1>Articoli di giornale</h1>
+
         <table class="table  table-striped table-bordered">
             <thead>
                 <tr>
@@ -19,6 +22,9 @@
                     <th>Autore</th>
                     <th>Testo</th>
                     <th>Anno Pubblicazione</th>
+                    <th>
+                        <a href="{{route ('articles.create') }}" class="btn btn-outline-dark">Aggiungi prodotto</a>
+                    </th>
                 </tr>
             </thead>
             <tbody>

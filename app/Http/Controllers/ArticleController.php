@@ -16,7 +16,7 @@ class ArticleController extends Controller
     {
         $articles = Article::all();
         
-        return view("home" , compact('articles'));
+        return view("articles.home" , compact('articles'));
     }
 
     /**
@@ -26,7 +26,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view("articles.create");
     }
 
     /**
@@ -37,7 +37,27 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $request->validate(
+            [
+                'title' => 'required|max:30',
+                'subtitle' => 'required|max:30',
+                'author' => 'required|max:30',
+                'text' => 'required|max:500',
+                'pubblication_year' => 'required|numeric',
+            ]
+        );
+
+        $article = new Article();
+        $article->title = $data['title'];
+        $article->subtitle = $data['subtitle'];
+        $article->author = $data['author'];
+        $article->text = $data['text'];
+        $article->pubblication_year = $data['pubblication_year'];
+        $result = $article->save();
+
+        return redirect()->route('articles.index');
     }
 
     /**
