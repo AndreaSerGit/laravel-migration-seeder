@@ -13,6 +13,12 @@
 
         <h1>Articoli di giornale</h1>
 
+        @if (session('message'))
+        <div class="alert alert-success">
+        {{ session('message') }}
+        </div>     
+        @endif
+
         <table class="table  table-striped table-bordered">
             <thead>
                 <tr>
@@ -36,6 +42,17 @@
                     <td> {{ $article->author }} </td>
                     <td> {{ $article->text }} l</td>
                     <td> {{ $article->pubblication_year }}</td>
+                    <td>
+                        <a href=" {{ route('articles.show', $article->id)}} " class="btn btn-outline-dark">Mostra</a>
+                        <a href="{{route ('articles.edit' , $article->id) }}" class="btn btn-outline-dark">Modifica prodotto</a>
+                        <form action=" {{ route('articles.destroy', $article->id) }} " method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-outline-dark"> 
+                               Elimina articolo
+                            </button>
+                        </form>
+                    </td>
                 </tr>      
                 @endforeach
             </tbody>

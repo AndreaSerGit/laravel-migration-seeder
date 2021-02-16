@@ -68,7 +68,10 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        //
+        $article = Article::findOrFail($id);
+
+
+        return view("articles.articolo" , compact('article'));
     }
 
     /**
@@ -77,9 +80,9 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        return view("articles.edit", compact('article'));
     }
 
     /**
@@ -89,9 +92,25 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Article $article)
     {
-        //
+        $data = $request->all();
+
+        $request->validate(
+            [
+                'title' => 'required|max:30',
+                'subtitle' => 'required|max:30',
+                'author' => 'required|max:30',
+                'text' => 'required|max:500',
+                'pubblication_year' => 'required|numeric',
+            ]
+        ); 
+        
+        $article->update($data);
+
+        
+
+        return redirect()->route('articles.index')->with('message' , 'Il prodotto' . " $article->title " . 'è stato modificato correttamente');
     }
 
     /**
@@ -100,8 +119,10 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Article $article)
     {
-        //
+        $article->delete();
+
+        return redirect()->route('articles.index')->with('message' , " l'articolo " . " $article->title " . 'è stato eliminato');
     }
 }
